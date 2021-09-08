@@ -1,5 +1,5 @@
 ---
-title: "MyLabJournal"
+title: "CRIM250: Carmen Harrison Montoya"
 output: html_document
 ---
 
