@@ -1,18 +1,16 @@
 ---
-title: "Assignment Journal"
+title: " Harrison Montoya Assignments"
 output:
   html_document:
-    toc: true
-    toc_float: true
-    collapsed: false
-    number_sections: false
+    toc: yes
+    toc_float: yes
+    collapsed: no
+    number_sections: no
     toc_depth: 1
-    #code_folding: hide
+  pdf_document:
+    toc: no
+    toc_depth: '1'
 ---
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
-```
 
 # Assignment 1
 
@@ -132,5 +130,4 @@ ggplot(dat, aes(map_id=state, fill=Murder)) +
 What does this code do? Explain what each line is doing.
 
 *Answer:* This code is mapping the arrest rates of murder per 100,000 citizens per state. With this, we are able to see the salience and prominence of arrest rates through a colored map of the United States. The first line is using the data groups of "state" and "Murder" to construct aesthetic mapping in a ggplot, filling the map with "Murder" rates. Next, the second line is the direction to map the states, while the third line is expanding the x and y axes, i.e. longitude and latitude, in the graph. 
-
 
