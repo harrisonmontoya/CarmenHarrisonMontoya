@@ -16,7 +16,7 @@ knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
 
 # Assignment 1
 
-Due on Canvas on Monday 9/20 before class, at 10:15 am.
+Due on Canvas on Monday 9/20 before 10:15 am.
 
 ### Problem 1 
 
