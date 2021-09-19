@@ -1,20 +1,20 @@
 ---
 title: " Harrison Montoya Assignments"
 output:
+  pdf_document:
+    toc: no
+    toc_depth: '1'
   html_document:
     toc: yes
     toc_float: yes
     collapsed: no
     number_sections: no
     toc_depth: 1
-  pdf_document:
-    toc: no
-    toc_depth: '1'
 ---
 
 # Assignment 1
 
-Due on Canvas on Monday 9/20 before class, at 10:15 am.
+Due on Canvas on Monday 9/20 before class at 10:15 am
 
 ### Problem 1 
 
