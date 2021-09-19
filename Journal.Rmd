@@ -1,13 +1,15 @@
 ---
 title: "Assignment Journal"
 output:
+  pdf_document:
+    toc: yes
+    toc_depth: '1'
   html_document:
-    toc: true
-    toc_float: true
-    collapsed: false
-    number_sections: false
+    toc: yes
+    toc_float: yes
+    collapsed: no
+    number_sections: no
     toc_depth: 1
-    #code_folding: hide
 ---
 
 ```{r setup, include=FALSE}
