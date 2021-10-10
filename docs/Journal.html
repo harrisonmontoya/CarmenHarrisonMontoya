@@ -650,32 +650,210 @@ barplot(tab.langsex, main = &quot;Barchart of Sex and Language Ability&quot;, xl
 <p><em>b. Download the dataset from the Canvas website (fatal-police-shootings-data.csv) onto that folder, and save your Exam 1.Rmd file in the same folder.</em></p>
 <p><em>c. Download the README.md file. This is the codebook.</em></p>
 <p><em>d. Load the data into an R data frame.</em></p>
+<pre class="r"><code>dat&lt;-read.csv(&quot;fatal-police-shootings-data.csv&quot;)
+head(dat)</code></pre>
+<pre><code>##   id               name       date  manner_of_death      armed age gender race
+## 1  3         Tim Elliot 2015-01-02             shot        gun  53      M    A
+## 2  4   Lewis Lee Lembke 2015-01-02             shot        gun  47      M    W
+## 3  5 John Paul Quintero 2015-01-03 shot and Tasered    unarmed  23      M    H
+## 4  8    Matthew Hoffman 2015-01-04             shot toy weapon  32      M    W
+## 5  9  Michael Rodriguez 2015-01-04             shot   nail gun  39      M    H
+## 6 11  Kenneth Joe Brown 2015-01-04             shot        gun  18      M    W
+##            city state signs_of_mental_illness threat_level        flee
+## 1       Shelton    WA                    True       attack Not fleeing
+## 2         Aloha    OR                   False       attack Not fleeing
+## 3       Wichita    KS                   False        other Not fleeing
+## 4 San Francisco    CA                    True       attack Not fleeing
+## 5         Evans    CO                   False       attack Not fleeing
+## 6       Guthrie    OK                   False       attack Not fleeing
+##   body_camera longitude latitude is_geocoding_exact
+## 1       False  -123.122   47.247               True
+## 2       False  -122.892   45.487               True
+## 3       False   -97.281   37.695               True
+## 4       False  -122.422   37.763               True
+## 5       False  -104.692   40.384               True
+## 6       False   -97.423   35.877               True</code></pre>
 </div>
 <div id="problem-1-10-points" class="section level3">
 <h3>Problem 1 (10 points)</h3>
 <p><em>a. Describe the dataset. This is the source:</em> <em><a href="https://github.com/washingtonpost/data-police-shootings" class="uri">https://github.com/washingtonpost/data-police-shootings</a> .Write two sentences (max.) about this.</em></p>
 <p>The dataset describes every instance since 01/01/15 where an individual has been fatally shot by a police officer. With this, every individual is logged, along with the date of their death, the manner of death, if they were armed, their age, their gender, their race, their city and state, if there was any history of mental illness, the threat level, if they fled, if the officer had a body camera, and the details of distance during the shooting.</p>
 <p><em>b. How many observations are there in the data frame?</em></p>
+<pre class="r"><code>head(dat)</code></pre>
+<pre><code>##   id               name       date  manner_of_death      armed age gender race
+## 1  3         Tim Elliot 2015-01-02             shot        gun  53      M    A
+## 2  4   Lewis Lee Lembke 2015-01-02             shot        gun  47      M    W
+## 3  5 John Paul Quintero 2015-01-03 shot and Tasered    unarmed  23      M    H
+## 4  8    Matthew Hoffman 2015-01-04             shot toy weapon  32      M    W
+## 5  9  Michael Rodriguez 2015-01-04             shot   nail gun  39      M    H
+## 6 11  Kenneth Joe Brown 2015-01-04             shot        gun  18      M    W
+##            city state signs_of_mental_illness threat_level        flee
+## 1       Shelton    WA                    True       attack Not fleeing
+## 2         Aloha    OR                   False       attack Not fleeing
+## 3       Wichita    KS                   False        other Not fleeing
+## 4 San Francisco    CA                    True       attack Not fleeing
+## 5         Evans    CO                   False       attack Not fleeing
+## 6       Guthrie    OK                   False       attack Not fleeing
+##   body_camera longitude latitude is_geocoding_exact
+## 1       False  -123.122   47.247               True
+## 2       False  -122.892   45.487               True
+## 3       False   -97.281   37.695               True
+## 4       False  -122.422   37.763               True
+## 5       False  -104.692   40.384               True
+## 6       False   -97.423   35.877               True</code></pre>
 <p>There are 6,594 total observations within the data frame.</p>
 <p><em>c. Look at the names of the variables in the data frame. Describe what “body_camera”, “flee”, and “armed” represent, according to the codebook. Again, only write one sentence (max) per variable.</em></p>
+<pre class="r"><code>names(dat)</code></pre>
+<pre><code>##  [1] &quot;id&quot;                      &quot;name&quot;                   
+##  [3] &quot;date&quot;                    &quot;manner_of_death&quot;        
+##  [5] &quot;armed&quot;                   &quot;age&quot;                    
+##  [7] &quot;gender&quot;                  &quot;race&quot;                   
+##  [9] &quot;city&quot;                    &quot;state&quot;                  
+## [11] &quot;signs_of_mental_illness&quot; &quot;threat_level&quot;           
+## [13] &quot;flee&quot;                    &quot;body_camera&quot;            
+## [15] &quot;longitude&quot;               &quot;latitude&quot;               
+## [17] &quot;is_geocoding_exact&quot;</code></pre>
 <p>Within the codebook, “body_camera” signifies that a news report stated that the officer may have had a body camera on, which could have a recording of the incident. Here, “flee” signifies if the individual was moving away from the officer, either on foot, in a car, or none of the above. Additionally, “armed” signifies that the victim was in possession of an item that may have been seen as harmful by the officer.</p>
 <p><em>d. What are three weapons that you are surprised to find in the “armed” variable? Make a table of the values in “armed” to see the options.</em></p>
+<pre class="r"><code>table(dat$armed)</code></pre>
+<pre><code>## 
+##                                                   air conditioner 
+##                              207                                1 
+##                       air pistol                   Airsoft pistol 
+##                                1                                3 
+##                               ax                         barstool 
+##                               24                                1 
+##                     baseball bat          baseball bat and bottle 
+##                               20                                1 
+## baseball bat and fireplace poker           baseball bat and knife 
+##                                1                                1 
+##                            baton                           BB gun 
+##                                6                               15 
+##               BB gun and vehicle                     bean-bag gun 
+##                                1                                1 
+##                      beer bottle                       binoculars 
+##                                3                                1 
+##                     blunt object                           bottle 
+##                                5                                1 
+##                    bow and arrow                       box cutter 
+##                                1                               13 
+##                            brick              car, knife and mace 
+##                                2                                1 
+##                          carjack                            chain 
+##                                1                                3 
+##                        chain saw                         chainsaw 
+##                                2                                1 
+##                            chair              claimed to be armed 
+##                                4                                1 
+##               contractor&#39;s level                   cordless drill 
+##                                1                                1 
+##                         crossbow                          crowbar 
+##                                9                                5 
+##                        fireworks                         flagpole 
+##                                1                                1 
+##                       flashlight                      garden tool 
+##                                2                                2 
+##                      glass shard                          grenade 
+##                                4                                1 
+##                              gun                      gun and car 
+##                             3798                               12 
+##                    gun and knife                  gun and machete 
+##                               22                                3 
+##                    gun and sword                  gun and vehicle 
+##                                1                               17 
+##              guns and explosives                           hammer 
+##                                3                               18 
+##                       hand torch                          hatchet 
+##                                1                               14 
+##                  hatchet and gun                         ice pick 
+##                                2                                1 
+##                incendiary device                            knife 
+##                                2                              955 
+##                knife and vehicle                 lawn mower blade 
+##                                1                                2 
+##                          machete                  machete and gun 
+##                               51                                1 
+##                     meat cleaver                  metal hand tool 
+##                                6                                2 
+##                     metal object                       metal pipe 
+##                                5                               16 
+##                       metal pole                       metal rake 
+##                                4                                1 
+##                      metal stick                       microphone 
+##                                3                                1 
+##                       motorcycle                         nail gun 
+##                                1                                1 
+##                              oar                       pellet gun 
+##                                1                                3 
+##                              pen                     pepper spray 
+##                                1                                2 
+##                         pick-axe                    piece of wood 
+##                                4                                7 
+##                             pipe                        pitchfork 
+##                                7                                2 
+##                             pole                   pole and knife 
+##                                3                                2 
+##                  railroad spikes                             rock 
+##                                1                                7 
+##                    samurai sword                         scissors 
+##                                4                                9 
+##                      screwdriver                     sharp object 
+##                               16                               14 
+##                           shovel                            spear 
+##                                7                                2 
+##                          stapler              straight edge razor 
+##                                1                                5 
+##                            sword                            Taser 
+##                               23                               34 
+##                        tire iron                       toy weapon 
+##                                4                              226 
+##                          unarmed                     undetermined 
+##                              421                              188 
+##                   unknown weapon                          vehicle 
+##                               82                              213 
+##                  vehicle and gun              vehicle and machete 
+##                                8                                1 
+##                    walking stick                       wasp spray 
+##                                1                                1 
+##                           wrench 
+##                                1</code></pre>
 <p>Three items that I was very surprised to see that constituted as weapons by the officer were a flashlight, a beer bottle, and wasp spray.</p>
 </div>
 <div id="problem-2-10-points" class="section level3">
 <h3>Problem 2 (10 points)</h3>
 <p><em>a. Describe the age distribution of the sample. Is this what you would expect to see?</em></p>
+<pre class="r"><code>hist(dat$age, main=&quot;Histogram of Age&quot;, xlab=&quot;Age&quot;, ylab=&quot;Frequency&quot;)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 <p>Usually, yes, one would expect for the majority of incidents to happen to younger individuals, somewhere in their 20’s, as that reflects the age group of individuals that may be involved in crimes the most. However, I was surprised to see how many fatal shootings stretched into the later years, such as those in their late 30’s and into their 40’s and 60’s.</p>
 <p><em>b. To understand the center of the age distribution, would you use a mean or a median, and why? Find the one you picked.</em></p>
+<pre class="r"><code>summary(dat$age)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##    6.00   27.00   35.00   37.12   45.00   91.00     308</code></pre>
 <p>I would use the median, because the grouping of ages is unsymmetric, and thus, the data might be skewed towards one end or the other if using the mean. Instead of the data being skewed through the mean (plus those unknown values skewing it more), the median would offer a better representation of the true center of the data.</p>
 <p><em>c. Describe the gender distribution of the sample. Do you find this surprising?</em></p>
+<pre class="r"><code>dat$gender.nona &lt;- na.omit(dat$gender)
+counts &lt;- table (dat$gender.nona)
+barplot(counts, main=&quot;Gender Distribution&quot;, xlab=&quot;Gender&quot;, ylab=&quot;Frequency&quot;)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 <p>The gender distribution of the data is heavily skewed towards male, which is mostly aligned with what would be predicted, as the majority of men are charged with committing crimes within the United States, and thus, men in criminal, or fatal, situations may also be aligned with this prediction. Although there is a small portion which seems to be of missing values, the barplot is still undeniably skewed towards male.</p>
 </div>
 <div id="problem-3-10-points" class="section level3">
 <h3>Problem 3 (10 points)</h3>
 <p><em>a. How many police officers had a body camera, according to news reports? What proportion is this of all the incidents in the data? Are you surprised that it is so high or low?</em></p>
+<pre class="r"><code>table(dat$body_camera)</code></pre>
+<pre><code>## 
+## False  True 
+##  5684   910</code></pre>
+<pre class="r"><code>910/6594</code></pre>
+<pre><code>## [1] 0.1380042</code></pre>
 <p>According to news reports, 910 police officers had a body camera on them. In relation to all of the incidents, though, it is surprising that only 13.8% of the officers who were involved in a fatal shooting had a body camera on. Based on the implementation of body cameras nationwide, one would have expected that percentage to be higher, yet it also begs the question of the correlation between higher rates of fatal shootings and no body cameras.</p>
 <p><em>b. In how many of the incidents was the victim fleeing? What proportion is this of the total number of incidents in the data? Is this what you would expect?</em></p>
+<pre class="r"><code>table(dat$flee)</code></pre>
+<pre><code>## 
+##                     Car        Foot Not fleeing       Other 
+##         491        1058         845        3952         248</code></pre>
+<pre class="r"><code>(1058+845)/6594</code></pre>
+<pre><code>## [1] 0.2885957</code></pre>
 <p>Not including the “other” values, 1,903 times, or in about 28.85% of the instances, the victim was attempting to flee. Consequently, I would have expected more instances of fleeing because that then implies that while the victim was complying (at least in not fleeing) the police officer still founds grounds to fatally shoot the individual.</p>
 </div>
 <div id="problem-4-10-points" class="section level3">
@@ -683,15 +861,35 @@ barplot(tab.langsex, main = &quot;Barchart of Sex and Language Ability&quot;, xl
 <p><em>a. Describe the relationship between the variables “body camera” and “flee” using a stacked barplot. What can you conclude from this relationship?</em></p>
 <p><em>(Hint 1: The categories along the x-axis are the options for “flee”, each bar contains information about whether the police officer had a body camera (vertically), and the height along the y-axis shows the frequency of that category.)</em></p>
 <p><em>(Hint 2: Also, if you are unsure about the syntax for barplot, run ?barplot in R and see some examples at the bottom of the documentation. This is usually a good way to look up the syntax of R code. You can also Google it.)</em></p>
+<pre class="r"><code>tab.camflee &lt;- table(dat$body_camera, dat$flee)
+barplot(tab.camflee, main = &quot;Relationship of Body Camera Use and Fleeing&quot;, xlab = &quot;Fleeing&quot;, ylab = &quot;Frequency&quot;, legend.text = rownames(tab.camflee), beside = FALSE)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
 <p>Here, fleeing is plotted on the x axis, while the frequency of fleeing is plotted on the y axis, while “true” and “false” on the stacked barplots signify if a body camera was used in that exact situation. With this relationship, one may conclude that out of all of the instances of fleeing or not fleeing, there was more body camera usage covering that an individual was not fleeing.</p>
 <p><em>b. Describe the relationship between age and race by using a boxplot. What can you conclude from this relationship? </em></p>
 <p><em>(Hint 1: The categories along the x-axis are the race categories and the height along the y-axis is age.)</em></p>
 <p><em>(Hint 2: Also, if you are unsure about the syntax for boxplot, run ?boxplot in R and see some examples at the bottom of the documentation. This is usually a good way to look up the syntax of R code. You can also Google it.)</em></p>
+<pre class="r"><code>head(as.numeric(dat$age))</code></pre>
+<pre><code>## [1] 53 47 23 32 39 18</code></pre>
+<pre class="r"><code>head(as.numeric(dat$race))</code></pre>
+<pre><code>## [1] NA NA NA NA NA NA</code></pre>
+<pre class="r"><code>tab.agerace &lt;- table(dat$race, dat$age)
+barplot(tab.agerace, main = &quot;Relationship of Race and Age&quot;, xlab = &quot;Race&quot;, ylab = &quot;Frequency&quot;, legend.text = rownames(tab.agerace), beside = FALSE)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<pre class="r"><code>head(as.numeric(dat$age))</code></pre>
+<pre><code>## [1] 53 47 23 32 39 18</code></pre>
+<pre class="r"><code>head(as.numeric(dat$race))</code></pre>
+<pre><code>## [1] NA NA NA NA NA NA</code></pre>
+<pre class="r"><code>tab.agerace &lt;- table(dat$age, dat$race)
+barplot(tab.agerace, main = &quot;Relationship of Race and Age&quot;, xlab = &quot;Race&quot;, ylab = &quot;Frequency&quot;, legend.text = rownames(tab.agerace), beside = FALSE)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-31-2.png" width="672" /></p>
 <p>Plotting age and race both ways, the first graph demonstrates ages along the x axis and frequency along the y axis, with the key representing different races. The second graph demonstrates race along the x axis, frequency along the y axis, and ages within the key. Here, it is shown that the majority of fatal shooting victims are indeed white, with African Americans coming as the second highest grouping for victims, with the majority of both being within the age ranges of 26-36 years old.</p>
 </div>
 <div id="extra-credit-10-points" class="section level3">
 <h3>Extra credit (10 points)</h3>
 <p><em>a. What does this code tell us?</em></p>
+<pre class="r"><code>mydates &lt;- as.Date(dat$date)
+head(mydates)
+(mydates[length(mydates)] - mydates[1])</code></pre>
 <p>The code explains how much of a time difference there was between all occurances of fatal shootings, with the difference being 2,458 days total.</p>
 <p><em>b. On Friday, a new report was published that was described as follows by The Guardian: “More than half of US police killings are mislabelled or not reported, study finds.” Without reading this article now (due to limited time), why do you think police killings might be mislabelled or underreported?</em></p>
 <p>Police killings might be mislabeled or underreported first due to processing issues, where an officer might not process the report properly, the report may not have all necessary information, or different processors may not have investigated the event thoroughly. Second, officers who may be liable for a wrongly death may not report the incident, or even do so correctly. Third, with a wrongly death, an officer may report that the victim had a weapon in his hand, or that he was fleeing, when he truly was not, in order to grant the officer clemency for the situation.</p>

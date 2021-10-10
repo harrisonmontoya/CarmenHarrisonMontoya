@@ -272,7 +272,8 @@ Here, there are a few more male English speakers than female English speakers.
 *d. Load the data into an R data frame.*
 
 ```{r}
-
+dat<-read.csv("fatal-police-shootings-data.csv")
+head(dat)
 ```
 
 ### Problem 1 (10 points)
@@ -284,7 +285,7 @@ The dataset describes every instance since 01/01/15 where an individual has been
 *b. How many observations are there in the data frame?*
 
 ```{r}
-
+head(dat)
 ```
 
 There are 6,594 total observations within the data frame.
@@ -292,7 +293,7 @@ There are 6,594 total observations within the data frame.
 *c. Look at the names of the variables in the data frame. Describe what "body_camera", "flee", and "armed" represent, according to the codebook. Again, only write one sentence (max) per variable.* 
 
 ```{r}
-
+names(dat)
 ```
 
 Within the codebook, "body_camera" signifies that a news report stated that the officer may have had a body camera on, which could have a recording of the incident. Here, "flee" signifies if the individual was moving away from the officer, either on foot, in a car, or none of the above. Additionally, "armed" signifies that the victim was in possession of an item that may have been seen as harmful by the officer.
@@ -300,7 +301,7 @@ Within the codebook, "body_camera" signifies that a news report stated that the 
 *d. What are three weapons that you are surprised to find in the "armed" variable? Make a table of the values in "armed" to see the options.*
 
 ```{r}
-
+table(dat$armed)
 ```
 
 Three items that I was very surprised to see that constituted as weapons by the officer were a flashlight, a beer bottle, and wasp spray.
@@ -310,7 +311,7 @@ Three items that I was very surprised to see that constituted as weapons by the 
 *a. Describe the age distribution of the sample. Is this what you would expect to see?* 
 
 ```{r}
-
+hist(dat$age, main="Histogram of Age", xlab="Age", ylab="Frequency")
 ```
 
 Usually, yes, one would expect for the majority of incidents to happen to younger individuals, somewhere in their 20's, as that reflects the age group of individuals that may be involved in crimes the most. However, I was surprised to see how many fatal shootings stretched into the later years, such as those in their late 30's and into their 40's and 60's.
@@ -318,7 +319,7 @@ Usually, yes, one would expect for the majority of incidents to happen to younge
 *b. To understand the center of the age distribution, would you use a mean or a median, and why? Find the one you picked.*
 
 ```{r}
-
+summary(dat$age)
 ```
 
 I would use the median, because the grouping of ages is unsymmetric, and thus, the data might be skewed towards one end or the other if using the mean. Instead of the data being skewed through the mean (plus those unknown values skewing it more), the median would offer a better representation of the true center of the data.
@@ -326,7 +327,9 @@ I would use the median, because the grouping of ages is unsymmetric, and thus, t
 *c. Describe the gender distribution of the sample. Do you find this surprising?* 
 
 ```{r}
-
+dat$gender.nona <- na.omit(dat$gender)
+counts <- table (dat$gender.nona)
+barplot(counts, main="Gender Distribution", xlab="Gender", ylab="Frequency")
 ```
 
 The gender distribution of the data is heavily skewed towards male, which is mostly aligned with what would be predicted, as the majority of men are charged with committing crimes within the United States, and thus, men in criminal, or fatal, situations may also be aligned with this prediction. Although there is a small portion which seems to be of missing values, the barplot is still undeniably skewed towards male. 
@@ -336,7 +339,9 @@ The gender distribution of the data is heavily skewed towards male, which is mos
 *a. How many police officers had a body camera, according to news reports? What proportion is this of all the incidents in the data? Are you surprised that it is so high or low?*
 
 ```{r}
+table(dat$body_camera)
 
+910/6594
 ```
 
 According to news reports, 910 police officers had a body camera on them. In relation to all of the incidents, though, it is surprising that only 13.8% of the officers who were involved in a fatal shooting had a body camera on. Based on the implementation of body cameras nationwide, one would have expected that percentage to be higher, yet it also begs the question of the correlation between higher rates of fatal shootings and no body cameras. 
@@ -344,7 +349,9 @@ According to news reports, 910 police officers had a body camera on them. In rel
 *b. In  how many of the incidents was the victim fleeing? What proportion is this of the total number of incidents in the data? Is this what you would expect?*
 
 ```{r}
+table(dat$flee)
 
+(1058+845)/6594
 ```
 
 Not including the "other" values, 1,903 times, or in about 28.85% of the instances, the victim was attempting to flee. Consequently, I would have expected more instances of fleeing because that then implies that while the victim was complying (at least in not fleeing) the police officer still founds grounds to fatally shoot the individual. 
@@ -358,7 +365,8 @@ Not including the "other" values, 1,903 times, or in about 28.85% of the instanc
 *(Hint 2: Also, if you are unsure about the syntax for barplot, run ?barplot in R and see some examples at the bottom of the documentation. This is usually a good way to look up the syntax of R code. You can also Google it.)*
 
 ```{r}
-
+tab.camflee <- table(dat$body_camera, dat$flee)
+barplot(tab.camflee, main = "Relationship of Body Camera Use and Fleeing", xlab = "Fleeing", ylab = "Frequency", legend.text = rownames(tab.camflee), beside = FALSE)
 ```
 
 Here, fleeing is plotted on the x axis, while the frequency of fleeing is plotted on the y axis, while "true" and "false" on the stacked barplots signify if a body camera was used in that exact situation. With this relationship, one may conclude that out of all of the instances of fleeing or not fleeing, there was more body camera usage covering that an individual was not fleeing. 
@@ -370,6 +378,16 @@ Here, fleeing is plotted on the x axis, while the frequency of fleeing is plotte
 *(Hint 2: Also, if you are unsure about the syntax for boxplot, run ?boxplot in R and see some examples at the bottom of the documentation. This is usually a good way to look up the syntax of R code. You can also Google it.)*
 
 ```{r}
+head(as.numeric(dat$age))
+head(as.numeric(dat$race))
+tab.agerace <- table(dat$race, dat$age)
+barplot(tab.agerace, main = "Relationship of Race and Age", xlab = "Race", ylab = "Frequency", legend.text = rownames(tab.agerace), beside = FALSE)
+
+
+head(as.numeric(dat$age))
+head(as.numeric(dat$race))
+tab.agerace <- table(dat$age, dat$race)
+barplot(tab.agerace, main = "Relationship of Race and Age", xlab = "Race", ylab = "Frequency", legend.text = rownames(tab.agerace), beside = FALSE)
 
 ```
 
@@ -379,8 +397,10 @@ Plotting age and race both ways, the first graph demonstrates ages along the x a
 
 *a. What does this code tell us?*
 
-```{r}
-
+```{r, eval=FALSE}
+mydates <- as.Date(dat$date)
+head(mydates)
+(mydates[length(mydates)] - mydates[1])
 ```
 
 The code explains how much of a time difference there was between all occurances of fatal shootings, with the difference being 2,458 days total.
