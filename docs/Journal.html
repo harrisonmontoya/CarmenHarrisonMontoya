@@ -343,9 +343,9 @@ div.tocify {
 </div>
 
 
+<p>This is where all of my assignments and exams for CRIM250 are located.</p>
 <div id="assignment-1" class="section level1">
 <h1>Assignment 1</h1>
-<p>Due on Canvas on Monday 9/20 before 10:15 am.</p>
 <div id="problem-1" class="section level3">
 <h3>Problem 1</h3>
 <p>Install the datasets package on the console below using <code>install.packages("datasets")</code>. Now load the library.</p>
@@ -523,6 +523,180 @@ ggplot(dat, aes(map_id=state, fill=Murder)) +
   expand_limits(x=map_data(&quot;state&quot;)$long, y=map_data(&quot;state&quot;)$lat)</code></pre>
 <p>What does this code do? Explain what each line is doing.</p>
 <p><em>Answer:</em> This code is mapping the arrest rates of murder per 100,000 citizens per state. With this, we are able to see the salience and prominence of arrest rates through a colored map of the United States. The first line is using the data groups of “state” and “Murder” to construct aesthetic mapping in a ggplot, filling the map with “Murder” rates. Next, the second line is the direction to map the states, while the third line is expanding the x and y axes, i.e. longitude and latitude, in the graph.</p>
+</div>
+</div>
+<div id="assignment-2" class="section level1">
+<h1>Assignment 2</h1>
+<div id="problem-1-load-data" class="section level3">
+<h3>Problem 1: Load Data</h3>
+<pre class="r"><code>dat &lt;- read.csv(file = &#39;dat.nsduh.small.1.csv&#39;)
+head(dat)</code></pre>
+<pre><code>##   mjage cigage iralcage age2 sexatract speakengl irsex
+## 1    14     50       14   16         1         1     1
+## 2    11     14        5   13         2         1     2
+## 3    12     35       12   15         2         1     2
+## 4    16     18       18   14         1         1     1
+## 5    14     16       14   16         4         1     1
+## 6    12     16       18   15         4         1     2</code></pre>
+<p><em>What are the dimensions of the data set?</em></p>
+<pre class="r"><code>names(dat)</code></pre>
+<pre><code>## [1] &quot;mjage&quot;     &quot;cigage&quot;    &quot;iralcage&quot;  &quot;age2&quot;      &quot;sexatract&quot; &quot;speakengl&quot;
+## [7] &quot;irsex&quot;</code></pre>
+</div>
+<div id="problem-2-variables" class="section level3">
+<h3>Problem 2: Variables</h3>
+<p><em>Describe the variables in the dataset</em></p>
+<p>The variables are forms of quantitative variables, and all the datasets are described as integers within R. Here, these variables are labeled as mjage (age of first use of marijuana), cigage (age of first daily use of cigarettes), iralcage (age that first tried alcohol), age2 (age recorded the second time), sexatract (sexual attraction/action towards different genders), speakengl (proficiency in English), and irsex (sex of individual).</p>
+<pre class="r"><code>class(dat$mjage)</code></pre>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+<pre class="r"><code>class(dat$cigage)</code></pre>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+<pre class="r"><code>class(dat$iralcage)</code></pre>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+<pre class="r"><code>class(dat$age2)</code></pre>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+<pre class="r"><code>class(dat$sexatract)</code></pre>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+<pre class="r"><code>class(dat$speakengl)</code></pre>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+<pre class="r"><code>class(dat$irsex)</code></pre>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+<p><em>What is this dataset about? Who collected the data, what kind of sample is it, and what was the purpose of generating the data?</em></p>
+<p>The data describe a respondent’s first use of a variety of substances, including alcohol, marijuana, and cigarettes, as well as describing the age, language, sex, and sexual orientation of the respondents. The data presented in this set are a small sample from the entirety of data collected by the National Survey of Drug Use and Health. Here, only the first 1,000 responses are used out of the entire representative sample taken by the NSDUH. By generating this data, the NSDUH is able to greater understand the use of particular substances around the country, as well as the sexual tendencies of individuals, based on age, gender, and language proficiency.</p>
+</div>
+<div id="problem-3-age-and-gender" class="section level3">
+<h3>Problem 3: Age and gender</h3>
+<p><em>What is the age distribution of the sample like? Make sure you read the codebook to know what the variable values mean.</em></p>
+<pre class="r"><code>hist(dat$age2, main=&quot;Age of Respondents&quot;, xlab = &quot;Code for Age Group&quot;, ylab = &quot;Frequency&quot;)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><em>Do you think this age distribution representative of the US population? Why or why not?</em></p>
+<p>I do not believe this distribution is representative of the US population, because, more than anything, the way the ages are distributed in these coded groups are completely skewed, with codes 1-12 solely for individuals at or under 25 years of age, while the codes 12-17 are responsible for the rest of the population’s ages. Here, nearly 2/3 of the codes account for solely over 1/3 of the United States population (that under 25 years of age). In this data set, there are no patterns to age distribution, with some codes representing one age, others representing four, and others representing fourteen.</p>
+<p><em>Is the sample balanced in terms of gender? If not, are there more females or males?</em></p>
+<pre class="r"><code>counts &lt;- table(dat$irsex)
+counts</code></pre>
+<pre><code>## 
+##  1  2 
+## 91 80</code></pre>
+<pre class="r"><code>barplot(counts, main=&quot;Gender Distribution&quot;, xlab=&quot;Gender&quot;, names=c(&quot;Male&quot;,&quot;Female&quot;))</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>The sample is nearly balanced by gender, yet based on this sample of the data, there are 11 more male respondents (totaling 91) than female respondents (totaling 80).</p>
+<p><em>Use this code to draw a stacked bar plot to view the relationship between sex and age. What can you conclude from this plot?</em></p>
+<pre class="r"><code>tab.agesex &lt;- table(dat$irsex, dat$age2)
+barplot(tab.agesex, main = &quot;Stacked barchart&quot;, xlab = &quot;Age category&quot;, ylab = &quot;Frequency&quot;, legend.text = rownames(tab.agesex),beside = FALSE) # Stacked bars (default)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>From this plot, it is shown that the majority of individuals, both male and female, are within the 15 age category, with gender being nearly evenly distributed in this area. Moving to other age categories, the outlier categories on both sides tend to be more male, while women are more centered along the 8-16 age categories.</p>
+</div>
+<div id="problem-4-substance-use" class="section level3">
+<h3>Problem 4: Substance Use</h3>
+<p><em>For which of the three substances included in the dataset (marijuana, alcohol, and cigarettes) do individuals tend to use the substance earlier?</em></p>
+<pre class="r"><code>par(mfrow=c(3,1))
+hist(dat$mjage, main=&quot;Histogram of Marijuana Use&quot;, xlab=&quot;Age of First Marijuana Use&quot;, ylab=&quot;Frequency&quot;)
+hist(dat$cigage, main=&quot;Histogram of Cigarette Use&quot;, xlab=&quot;Age of First Cigarette Use&quot;, ylab=&quot;Frequency&quot;)
+hist(dat$iralcage, main=&quot;Histogram of Alcohol Use&quot;, xlab=&quot;Age of First Alcohol Use&quot;, ylab=&quot;Frequency&quot;)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p>In this dataset, marijuana is tended to be used the youngest, with a large frequency of first use between 10-15 years of age in comparison to the entire histogram. In the other histograms, the dispersion of first use tends to be highest around the 15 or 15-20 age ranges.</p>
+</div>
+<div id="problem-5-sexual-attraction" class="section level3">
+<h3>Problem 5: Sexual Attraction</h3>
+<p><em>What does the distribution of sexual attraction look like? Is this what you expected?</em></p>
+<pre class="r"><code>as.numeric(dat$sexatract)</code></pre>
+<pre><code>##   [1]  1  2  2  1  4  4  1  1  1  1  1  1  1  1  1  1  1  1  1  1  5  1  1  5  2
+##  [26]  1  1  1  1 99  1  1  1  2 99  1  1  1  1  2  1  1  1  1  2  1  1  3  1  1
+##  [51]  2  1  1  1  1  1  1  1  1  1  1  3  2  1  1  3  1  1  1  1  1  1  1  1  1
+##  [76]  1  1  5  1  1  1  1  1  4  1  1  2  1  1  1  1  2  2  1  1  1  6  1  1  1
+## [101]  1  1  1  1  1  1  3  1  1  2  3  1  2  1  1  1  1  1  1  1  3  1  1  1  1
+## [126]  1  2  3  1  1  3  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
+## [151]  1  1  1  1  1  1  1  1  1  1  2  1  1  2  1  1  1  1  3  1 99</code></pre>
+<pre class="r"><code>if (!require(&#39;dplyr&#39;)) install.packages(&#39;dplyr&#39;); library(&#39;dplyr&#39;)
+dat$sexatract &lt;- dat$sexatract %&gt;% na_if(., &quot;99&quot;)
+hist(dat$sexatract, main=&quot;Sexual Attraction Histogram&quot;, xlab = &quot;Code for Sexual Attraction&quot;, ylab = &quot;Frequency&quot;)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p>The distribution of sexual attraction is heavily skewed to opposite-sex attraction, under the code 1. As expected in surveying the majority of Americans, this plot is in line with a general representation of the population and sexuality.</p>
+<p><em>What is the distribution of sexual attraction by gender?</em></p>
+<pre class="r"><code>as.numeric(dat$sexatract)</code></pre>
+<pre><code>##   [1]  1  2  2  1  4  4  1  1  1  1  1  1  1  1  1  1  1  1  1  1  5  1  1  5  2
+##  [26]  1  1  1  1 NA  1  1  1  2 NA  1  1  1  1  2  1  1  1  1  2  1  1  3  1  1
+##  [51]  2  1  1  1  1  1  1  1  1  1  1  3  2  1  1  3  1  1  1  1  1  1  1  1  1
+##  [76]  1  1  5  1  1  1  1  1  4  1  1  2  1  1  1  1  2  2  1  1  1  6  1  1  1
+## [101]  1  1  1  1  1  1  3  1  1  2  3  1  2  1  1  1  1  1  1  1  3  1  1  1  1
+## [126]  1  2  3  1  1  3  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
+## [151]  1  1  1  1  1  1  1  1  1  1  2  1  1  2  1  1  1  1  3  1 NA</code></pre>
+<pre class="r"><code>tab.atractsex &lt;- table(dat$irsex, dat$sexatract)
+barplot(tab.atractsex, main = &quot;Stacked Barchart of Sexual Attraction and Sex&quot;, xlab = &quot;Sexual Attraction Code&quot;, ylab = &quot;Frequency&quot;, legend.text = rownames(tab.atractsex), beside = FALSE) # Stacked bars (default)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p>Based on gender, men are more likely to fall under the category 1 (opposite-sex attraction), with a small proportion being strictly homosexual. On the other hand, women tend to have more experiences in sexual fluidity, and although the majority falls under the category 1 as well, there is much more representation in the categories of 2, 3, and 4, signifying sexual experimentation and/or variety.</p>
+</div>
+<div id="problem-6-english-speaking" class="section level3">
+<h3>Problem 6: English Speaking</h3>
+<p><em>What does the distribution of English speaking look like in the sample? Is this what you might expect for a random sample of the US population?</em></p>
+<pre class="r"><code>tab.langsex &lt;- table(dat$irsex, dat$speakengl)
+barplot(tab.langsex, main = &quot;Barchart of Sex and Language Ability&quot;, xlab = &quot;Language Ability&quot;, ylab = &quot;Frequency&quot;, legend.text = rownames(tab.langsex), beside = FALSE) # Stacked bars (default)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>The distribution of English ability in this sample is heavily skewed towards 1, that of speaking English “very well,” nearly equally for both males and females. However, based on the diversity of the US population, I believe a random sample should need to include less of the first code of perfect English and more of the codes 2, 3, and 4 in English ability</p>
+<p><em>Are there more English speaker females or males?</em></p>
+<pre class="r"><code>tab.langsex</code></pre>
+<pre><code>##    
+##      1  2  3
+##   1 84  7  0
+##   2 77  1  2</code></pre>
+<p>Here, there are a few more male English speakers than female English speakers.</p>
+</div>
+</div>
+<div id="exam-1" class="section level1">
+<h1>Exam 1</h1>
+<div id="instructions" class="section level3">
+<h3>Instructions</h3>
+<p><em>a. Create a folder in your computer (a good place would be under Crim 250, Exams).</em></p>
+<p><em>b. Download the dataset from the Canvas website (fatal-police-shootings-data.csv) onto that folder, and save your Exam 1.Rmd file in the same folder.</em></p>
+<p><em>c. Download the README.md file. This is the codebook.</em></p>
+<p><em>d. Load the data into an R data frame.</em></p>
+</div>
+<div id="problem-1-10-points" class="section level3">
+<h3>Problem 1 (10 points)</h3>
+<p><em>a. Describe the dataset. This is the source:</em> <em><a href="https://github.com/washingtonpost/data-police-shootings" class="uri">https://github.com/washingtonpost/data-police-shootings</a> .Write two sentences (max.) about this.</em></p>
+<p>The dataset describes every instance since 01/01/15 where an individual has been fatally shot by a police officer. With this, every individual is logged, along with the date of their death, the manner of death, if they were armed, their age, their gender, their race, their city and state, if there was any history of mental illness, the threat level, if they fled, if the officer had a body camera, and the details of distance during the shooting.</p>
+<p><em>b. How many observations are there in the data frame?</em></p>
+<p>There are 6,594 total observations within the data frame.</p>
+<p><em>c. Look at the names of the variables in the data frame. Describe what “body_camera”, “flee”, and “armed” represent, according to the codebook. Again, only write one sentence (max) per variable.</em></p>
+<p>Within the codebook, “body_camera” signifies that a news report stated that the officer may have had a body camera on, which could have a recording of the incident. Here, “flee” signifies if the individual was moving away from the officer, either on foot, in a car, or none of the above. Additionally, “armed” signifies that the victim was in possession of an item that may have been seen as harmful by the officer.</p>
+<p><em>d. What are three weapons that you are surprised to find in the “armed” variable? Make a table of the values in “armed” to see the options.</em></p>
+<p>Three items that I was very surprised to see that constituted as weapons by the officer were a flashlight, a beer bottle, and wasp spray.</p>
+</div>
+<div id="problem-2-10-points" class="section level3">
+<h3>Problem 2 (10 points)</h3>
+<p><em>a. Describe the age distribution of the sample. Is this what you would expect to see?</em></p>
+<p>Usually, yes, one would expect for the majority of incidents to happen to younger individuals, somewhere in their 20’s, as that reflects the age group of individuals that may be involved in crimes the most. However, I was surprised to see how many fatal shootings stretched into the later years, such as those in their late 30’s and into their 40’s and 60’s.</p>
+<p><em>b. To understand the center of the age distribution, would you use a mean or a median, and why? Find the one you picked.</em></p>
+<p>I would use the median, because the grouping of ages is unsymmetric, and thus, the data might be skewed towards one end or the other if using the mean. Instead of the data being skewed through the mean (plus those unknown values skewing it more), the median would offer a better representation of the true center of the data.</p>
+<p><em>c. Describe the gender distribution of the sample. Do you find this surprising?</em></p>
+<p>The gender distribution of the data is heavily skewed towards male, which is mostly aligned with what would be predicted, as the majority of men are charged with committing crimes within the United States, and thus, men in criminal, or fatal, situations may also be aligned with this prediction. Although there is a small portion which seems to be of missing values, the barplot is still undeniably skewed towards male.</p>
+</div>
+<div id="problem-3-10-points" class="section level3">
+<h3>Problem 3 (10 points)</h3>
+<p><em>a. How many police officers had a body camera, according to news reports? What proportion is this of all the incidents in the data? Are you surprised that it is so high or low?</em></p>
+<p>According to news reports, 910 police officers had a body camera on them. In relation to all of the incidents, though, it is surprising that only 13.8% of the officers who were involved in a fatal shooting had a body camera on. Based on the implementation of body cameras nationwide, one would have expected that percentage to be higher, yet it also begs the question of the correlation between higher rates of fatal shootings and no body cameras.</p>
+<p><em>b. In how many of the incidents was the victim fleeing? What proportion is this of the total number of incidents in the data? Is this what you would expect?</em></p>
+<p>Not including the “other” values, 1,903 times, or in about 28.85% of the instances, the victim was attempting to flee. Consequently, I would have expected more instances of fleeing because that then implies that while the victim was complying (at least in not fleeing) the police officer still founds grounds to fatally shoot the individual.</p>
+</div>
+<div id="problem-4-10-points" class="section level3">
+<h3>Problem 4 (10 points)</h3>
+<p><em>a. Describe the relationship between the variables “body camera” and “flee” using a stacked barplot. What can you conclude from this relationship?</em></p>
+<p><em>(Hint 1: The categories along the x-axis are the options for “flee”, each bar contains information about whether the police officer had a body camera (vertically), and the height along the y-axis shows the frequency of that category.)</em></p>
+<p><em>(Hint 2: Also, if you are unsure about the syntax for barplot, run ?barplot in R and see some examples at the bottom of the documentation. This is usually a good way to look up the syntax of R code. You can also Google it.)</em></p>
+<p>Here, fleeing is plotted on the x axis, while the frequency of fleeing is plotted on the y axis, while “true” and “false” on the stacked barplots signify if a body camera was used in that exact situation. With this relationship, one may conclude that out of all of the instances of fleeing or not fleeing, there was more body camera usage covering that an individual was not fleeing.</p>
+<p><em>b. Describe the relationship between age and race by using a boxplot. What can you conclude from this relationship? </em></p>
+<p><em>(Hint 1: The categories along the x-axis are the race categories and the height along the y-axis is age.)</em></p>
+<p><em>(Hint 2: Also, if you are unsure about the syntax for boxplot, run ?boxplot in R and see some examples at the bottom of the documentation. This is usually a good way to look up the syntax of R code. You can also Google it.)</em></p>
+<p>Plotting age and race both ways, the first graph demonstrates ages along the x axis and frequency along the y axis, with the key representing different races. The second graph demonstrates race along the x axis, frequency along the y axis, and ages within the key. Here, it is shown that the majority of fatal shooting victims are indeed white, with African Americans coming as the second highest grouping for victims, with the majority of both being within the age ranges of 26-36 years old.</p>
+</div>
+<div id="extra-credit-10-points" class="section level3">
+<h3>Extra credit (10 points)</h3>
+<p><em>a. What does this code tell us?</em></p>
+<p>The code explains how much of a time difference there was between all occurances of fatal shootings, with the difference being 2,458 days total.</p>
+<p><em>b. On Friday, a new report was published that was described as follows by The Guardian: “More than half of US police killings are mislabelled or not reported, study finds.” Without reading this article now (due to limited time), why do you think police killings might be mislabelled or underreported?</em></p>
+<p>Police killings might be mislabeled or underreported first due to processing issues, where an officer might not process the report properly, the report may not have all necessary information, or different processors may not have investigated the event thoroughly. Second, officers who may be liable for a wrongly death may not report the incident, or even do so correctly. Third, with a wrongly death, an officer may report that the victim had a weapon in his hand, or that he was fleeing, when he truly was not, in order to grant the officer clemency for the situation.</p>
+<p><em>c. Regarding missing values in problem 4, do you see any? If so, do you think that’s all that’s missing from the data?</em></p>
+<p>In section a of problem 4, there are many missing values within the “fleeing” variable, off to the left side of the graph, where there is no data if the victim fled or not. There is simply a bar determining if there was a body camera during the situation or not. Additionally, the “other” portion is unspecified as to what “other” may be, thus causing more vagueness in the results of the data. With this data, I believe not only are there missing values to it, but the vagueness of the “other” section leads to more missing values and less understanding of the situation based on if the victim was fleeing or not (and how).</p>
 </div>
 </div>
 
