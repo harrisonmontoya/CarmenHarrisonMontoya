@@ -19,15 +19,8 @@ output: html_document
 
 # **My CRIM250 Website**
 
-Carmen Harrison Montoya
+**Carmen Harrison Montoya** 
 
 This website is a library for my work done in my CRIM250 - Statistics for the Social Sciences course. Here, all of my work on EDA and R code for my assignments and exams may be found.
 
 
-## How to use
-
-1. fork the repo for this website and follow instructions on read me to get set up. [https://github.com/CrumpLab/LabJournalWebsite](https://github.com/CrumpLab/LabJournalWebsite)
-
-2. Blog/journal what you are doing in R, by editing the Journal.Rmd. See the [Journal page](https://crumplab.github.io/LabJournalWebsite/Journal.html) for an example of what to do to get started learning R.
-
-3. See the [links page](https://crumplab.github.io/LabJournalWebsite/Links.html) for lots of helpful links on learning R.
