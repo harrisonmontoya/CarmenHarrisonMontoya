@@ -1,4 +1,6 @@
-﻿gender,crime type,age,number of convictions,race
+Table 1
+simulated-crime,,,,
+gender,crime type,age,number of convictions,race
 female,murder,18,1,White
 male,aggravated assault,21,1,Black or African American
 female,aggravated assault,45,3,American Indian or Alaska Native

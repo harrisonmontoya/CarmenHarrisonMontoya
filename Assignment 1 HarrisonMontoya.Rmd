@@ -1,8 +1,8 @@
 ---
-title: " Harrison Montoya Assignments"
+title: ' Harrison Montoya Assignments'
 output:
-  pdf_document:
-    toc: no
+  word_document:
+    toc: yes
     toc_depth: '1'
   html_document:
     toc: yes
@@ -10,6 +10,9 @@ output:
     collapsed: no
     number_sections: no
     toc_depth: 1
+  pdf_document:
+    toc: no
+    toc_depth: '1'
 ---
 
 # Assignment 1

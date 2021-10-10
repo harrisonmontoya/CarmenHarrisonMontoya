@@ -16,9 +16,10 @@ output:
 knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
 ```
 
-# Assignment 1
+This is where all of my assignments and exams for CRIM250 are located. 
 
-Due on Canvas on Monday 9/20 before 10:15 am.
+
+# Assignment 1
 
 ### Problem 1 
 
@@ -134,5 +135,145 @@ ggplot(dat, aes(map_id=state, fill=Murder)) +
 What does this code do? Explain what each line is doing.
 
 *Answer:* This code is mapping the arrest rates of murder per 100,000 citizens per state. With this, we are able to see the salience and prominence of arrest rates through a colored map of the United States. The first line is using the data groups of "state" and "Murder" to construct aesthetic mapping in a ggplot, filling the map with "Murder" rates. Next, the second line is the direction to map the states, while the third line is expanding the x and y axes, i.e. longitude and latitude, in the graph. 
+
+
+# Assignment 2
+
+### Problem 1: Load Data
+
+```{r}
+dat <- read.csv(file = 'dat.nsduh.small.1.csv')
+head(dat)
+```
+
+*What are the dimensions of the data set?*
+
+```{r}
+names(dat)
+```
+
+### Problem 2: Variables
+
+*Describe the variables in the dataset*
+
+The variables are forms of quantitative variables, and all the datasets are described as integers within R. Here, these variables are labeled as mjage (age of first use of marijuana), cigage (age of first daily use of cigarettes), iralcage (age that first tried alcohol), age2 (age recorded the second time), sexatract (sexual attraction/action towards different genders), speakengl (proficiency in English), and irsex (sex of individual). 
+
+```{r}
+class(dat$mjage)
+class(dat$cigage)
+class(dat$iralcage)
+class(dat$age2)
+class(dat$sexatract)
+class(dat$speakengl)
+class(dat$irsex)
+```
+
+*What is this dataset about? Who collected the data, what kind of sample is it, and what was the purpose of generating the data?*
+
+The data describe a respondent’s first use of a variety of substances, including alcohol, marijuana, and cigarettes, as well as describing the age, language, sex, and sexual orientation of the respondents. The data presented in this set are a small sample from the entirety of data collected by the National Survey of Drug Use and Health. Here, only the first 1,000 responses are used out of the entire representative sample taken by the NSDUH. By generating this data, the NSDUH is able to greater understand the use of particular substances around the country, as well as the sexual tendencies of individuals, based on age, gender, and language proficiency. 
+
+### Problem 3: Age and gender
+
+*What is the age distribution of the sample like? Make sure you read the codebook to know what the variable values mean.*
+
+```{r}
+hist(dat$age2, main="Age of Respondents", xlab = "Code for Age Group", ylab = "Frequency")
+```
+
+*Do you think this age distribution representative of the US population? Why or why not?*
+
+I do not believe this distribution is representative of the US population, because, more than anything, the way the ages are distributed in these coded groups are completely skewed, with codes 1-12 solely for individuals at or under 25 years of age, while the codes 12-17 are responsible for the rest of the population’s ages. Here, nearly 2/3 of the codes account for solely over 1/3 of the United States population (that under 25 years of age). In this data set, there are no patterns to age distribution, with some codes representing one age, others representing four, and others representing fourteen. 
+
+*Is the sample balanced in terms of gender? If not, are there more females or males?*
+
+```{r}
+counts <- table(dat$irsex)
+counts
+barplot(counts, main="Gender Distribution", xlab="Gender", names=c("Male","Female"))
+```
+
+The sample is nearly balanced by gender, yet based on this sample of the data, there are 11 more male respondents (totaling 91) than female respondents (totaling 80). 
+
+*Use this code to draw a stacked bar plot to view the relationship between sex and age. What can you conclude from this plot?*
+
+```{r}
+tab.agesex <- table(dat$irsex, dat$age2)
+barplot(tab.agesex, main = "Stacked barchart", xlab = "Age category", ylab = "Frequency", legend.text = rownames(tab.agesex),beside = FALSE) # Stacked bars (default)
+```
+
+From this plot, it is shown that the majority of individuals, both male and female, are within the 15 age category, with gender being nearly evenly distributed in this area. Moving to other age categories, the outlier categories on both sides tend to be more male, while women are more centered along the 8-16 age categories. 
+
+### Problem 4: Substance Use
+
+*For which of the three substances included in the dataset (marijuana, alcohol, and cigarettes) do individuals tend to use the substance earlier?* 
+
+```{r}
+par(mfrow=c(3,1))
+hist(dat$mjage, main="Histogram of Marijuana Use", xlab="Age of First Marijuana Use", ylab="Frequency")
+hist(dat$cigage, main="Histogram of Cigarette Use", xlab="Age of First Cigarette Use", ylab="Frequency")
+hist(dat$iralcage, main="Histogram of Alcohol Use", xlab="Age of First Alcohol Use", ylab="Frequency")
+```
+
+In this dataset, marijuana is tended to be used the youngest, with a large frequency of first use between 10-15 years of age in comparison to the entire histogram. In the other histograms, the dispersion of first use tends to be highest around the 15 or 15-20 age ranges. 
+
+### Problem 5: Sexual Attraction
+
+*What does the distribution of sexual attraction look like? Is this what you expected?* 
+
+```{r}
+as.numeric(dat$sexatract)
+if (!require('dplyr')) install.packages('dplyr'); library('dplyr')
+dat$sexatract <- dat$sexatract %>% na_if(., "99")
+hist(dat$sexatract, main="Sexual Attraction Histogram", xlab = "Code for Sexual Attraction", ylab = "Frequency")
+```
+
+The distribution of sexual attraction is heavily skewed to opposite-sex attraction, under the code 1. As expected in surveying the majority of Americans, this plot is in line with a general representation of the population and sexuality. 
+
+*What is the distribution of sexual attraction by gender?*
+
+```{r}
+as.numeric(dat$sexatract)
+tab.atractsex <- table(dat$irsex, dat$sexatract)
+barplot(tab.atractsex, main = "Stacked Barchart of Sexual Attraction and Sex", xlab = "Sexual Attraction Code", ylab = "Frequency", legend.text = rownames(tab.atractsex), beside = FALSE) # Stacked bars (default)
+```
+
+Based on gender, men are more likely to fall under the category 1 (opposite-sex attraction), with a small proportion being strictly homosexual. On the other hand, women tend to have more experiences in sexual fluidity, and although the majority falls under the category 1 as well, there is much more representation in the categories of 2, 3, and 4, signifying sexual experimentation and/or variety. 
+
+### Problem 6: English Speaking
+
+*What does the distribution of English speaking look like in the sample? Is this what you might expect for a random sample of the US population?* 
+
+```{r}
+tab.langsex <- table(dat$irsex, dat$speakengl)
+barplot(tab.langsex, main = "Barchart of Sex and Language Ability", xlab = "Language Ability", ylab = "Frequency", legend.text = rownames(tab.langsex), beside = FALSE) # Stacked bars (default)
+```
+
+The distribution of English ability in this sample is heavily skewed towards 1, that of speaking English “very well,” nearly equally for both males and females. However, based on the diversity of the US population, I believe a random sample should need to include less of the first code of perfect English and more of the codes 2, 3, and 4 in English ability
+
+*Are there more English speaker females or males?*
+
+```{r}
+tab.langsex
+```
+
+Here, there are a few more male English speakers than female English speakers.
+
+
+# Exam 1
+
+### Instructions
+
+a. Create a folder in your computer (a good place would be under Crim 250, Exams). 
+
+b. Download the dataset from the Canvas website (fatal-police-shootings-data.csv) onto that folder, and save your Exam 1.Rmd file in the same folder.
+
+c. Download the README.md file. This is the codebook. 
+
+d. Load the data into an R data frame.
+
+```{r}
+
+```
+
 
 
