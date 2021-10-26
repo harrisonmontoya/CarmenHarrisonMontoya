@@ -897,6 +897,129 @@ head(mydates)
 <p>In section a of problem 4, there are many missing values within the “fleeing” variable, off to the left side of the graph, where there is no data if the victim fled or not. There is simply a bar determining if there was a body camera during the situation or not. Additionally, the “other” portion is unspecified as to what “other” may be, thus causing more vagueness in the results of the data. With this data, I believe not only are there missing values to it, but the vagueness of the “other” section leads to more missing values and less understanding of the situation based on if the victim was fleeing or not (and how).</p>
 </div>
 </div>
+<div id="assignment-3" class="section level1">
+<h1>Assignment 3</h1>
+<pre class="r"><code>knitr::opts_chunk$set(echo = TRUE)</code></pre>
+<p>Submit your responses as either an HTML file or a PDF file on Canvas. Also, please upload it to your website.</p>
+<p>Load the data.</p>
+<pre class="r"><code>library(readr)
+library(knitr)
+dat.crime &lt;- read_delim(&quot;crime_simple.txt&quot;, delim = &quot;\t&quot;)</code></pre>
+<p>This is a dataset from a textbook by Brian S. Everitt about crime in the US in 1960. The data originate from the Uniform Crime Report of the FBI and other government sources. The data for 47 states of the USA are given.</p>
+<div id="codebook" class="section level5">
+<h5>Codebook:</h5>
+<p><em>R</em>: Crime rate: # of offenses reported to police per million population</p>
+<p><em>Age</em>: The number of males of age 14-24 per 1000 population</p>
+<p><em>S</em>: Indicator variable for Southern states (0 = No, 1 = Yes)</p>
+<p><em>Ed</em>: Mean of years of schooling x 10 for persons of age 25 or older</p>
+<p><em>Ex0</em>: 1960 per capita expenditure on police by state and local government</p>
+<p><em>Ex1</em>: 1959 per capita expenditure on police by state and local government</p>
+<p><em>LF</em>: Labor force participation rate per 1000 civilian urban males age 14-24</p>
+<p><em>M</em>: The number of males per 1000 females</p>
+<p><em>N</em>: State population size in hundred thousands</p>
+<p><em>NW</em>: The number of non-whites per 1000 population</p>
+<p><em>U1</em>: Unemployment rate of urban males per 1000 of age 14-24</p>
+<p><em>U2</em>: Unemployment rate of urban males per 1000 of age 35-39</p>
+<p><em>W</em>: Median value of transferable goods and assets or family income in tens of $</p>
+<p><em>X</em>: The number of families per 1000 earning below 1/2 the median income</p>
+<p>We are interested in checking whether the reported crime rate (# of offenses reported to police per million population) and the average education (mean number of years of schooling for persons of age 25 or older) are related.</p>
+<p><strong>1. How many observations are there in the dataset? To what does each observation correspond?</strong></p>
+<pre class="r"><code>dat.crime</code></pre>
+<pre><code>## # A tibble: 47 × 14
+##        R   Age     S    Ed   Ex0   Ex1    LF     M     N    NW    U1    U2     W
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1  79.1   151     1    91    58    56   510   950    33   301   108    41   394
+##  2 164.    143     0   113   103    95   583  1012    13   102    96    36   557
+##  3  57.8   142     1    89    45    44   533   969    18   219    94    33   318
+##  4 197.    136     0   121   149   141   577   994   157    80   102    39   673
+##  5 123.    141     0   121   109   101   591   985    18    30    91    20   578
+##  6  68.2   121     0   110   118   115   547   964    25    44    84    29   689
+##  7  96.3   127     1   111    82    79   519   982     4   139    97    38   620
+##  8 156.    131     1   109   115   109   542   969    50   179    79    35   472
+##  9  85.6   157     1    90    65    62   553   955    39   286    81    28   421
+## 10  70.5   140     0   118    71    68   632  1029     7    15   100    24   526
+## # … with 37 more rows, and 1 more variable: X &lt;dbl&gt;</code></pre>
+<p>There are 47 total observations within the dataset, with each observation representing a state within the United States of America, excluding three remaining states.</p>
+<p><strong>2. Draw a scatterplot of the two variables. Calculate the correlation between the two variables. Can you come up with an explanation for this relationship?</strong></p>
+<pre class="r"><code>library(datasets)
+plot(dat.crime$R, dat.crime$Ed,  main=&quot;Relationship between Reported Crime Rate and Average Education&quot;,
+    xlab=&quot;Criminal Offenses per Million&quot;, ylab=&quot;Mean Schooling Years for Individuals Aged 25+&quot;)
+
+
+library(datasets)
+reg.output.nc &lt;- lm(formula = Ed ~ R, data = dat.crime)
+plot(dat.crime$R, dat.crime$Ed,  main=&quot;Relationship between Reported Crime Rate and Average Education&quot;,
+    xlab=&quot;Criminal Offenses per Million&quot;, ylab=&quot;Mean Schooling Years for Individuals Aged 25+&quot;)
+abline(reg.output.nc, col=&quot;blue&quot;)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-36-1.png" width="576" /></p>
+<pre class="r"><code>cor(dat.crime$R, dat.crime$Ed)</code></pre>
+<pre><code>## [1] 0.3228349</code></pre>
+<p>The correlation within this scatterplot is faintly a positive correlation of 0.3228349. This relationship, thus, may be explained as having an extremely weak positive correlation, leaning more towards no correlation, between education rates and criminal offenses. Thus, reports of criminal offenses may occur with both a lower and somewhat higher education rate.</p>
+<p><strong>3. Regress reported crime rate (y) on average education (x) and call this linear model <code>crime.lm</code> and write the summary of the regression.</strong></p>
+<pre class="r"><code>dat.crime$R.c = scale(dat.crime$R, center=TRUE, scale=FALSE)
+crime.lm &lt;- lm(formula = Ed ~ dat.crime$R.c, data = dat.crime) 
+summary(crime.lm) </code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Ed ~ dat.crime$R.c, data = dat.crime)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -18.020  -8.441   1.528   8.200  16.596 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   105.63830    1.56148  67.653   &lt;2e-16 ***
+## dat.crime$R.c   0.09338    0.04081   2.288   0.0269 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 10.7 on 45 degrees of freedom
+## Multiple R-squared:  0.1042, Adjusted R-squared:  0.08432 
+## F-statistic: 5.236 on 1 and 45 DF,  p-value: 0.02688</code></pre>
+<p><strong>4. Are the four assumptions of linear regression satisfied? To answer this, draw the relevant plots. (Write a maximum of one sentence per assumption.)</strong></p>
+<pre class="r"><code>plot(dat.crime$R.c, crime.lm$residuals, ylim=c(-15,15), main=&quot;Residuals vs. x&quot;, xlab=&quot;x, Scaled Reported Crime&quot;, ylab=&quot;Residuals&quot;)
+abline(h = 0, lty=&quot;dashed&quot;)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<pre class="r"><code>plot(crime.lm, which=1)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-38-2.png" width="672" /></p>
+<pre class="r"><code>plot(crime.lm, which=3)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-38-3.png" width="672" /></p>
+<pre class="r"><code>plot(crime.lm, which=5)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-38-4.png" width="672" /></p>
+<pre class="r"><code>plot(crime.lm, which=2)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-38-5.png" width="672" /></p>
+<p>Dealing with the four assumptions of linear regression, the first two assumptions of linearity and independence may be demonstrated through the first plots of residuals vs. x and residuals vs. fitted, where both assumptions hold true. Within the first two plots, linearity is true through the horizontal direction of the plot, and independence is true through no evidence of patterns that may constitute clumpings which diminish independence. Next, the third assumption of homoscedasticity is proved true through the scale-location plot, where there is no significant trend leading to a non-constant variance. Last, the fourth assumption of normal population is proved true in both a residuals vs. leverage plot and normal qq plot, where there are no significant outliers or significantly heavy skews, respectively.</p>
+<p><strong>5. Is the relationship between reported crime and average education statistically significant? Report the estimated coefficient of the slope, the standard error, and the p-value. What does it mean for the relationship to be statistically significant?</strong></p>
+<pre class="r"><code>summary(crime.lm) </code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Ed ~ dat.crime$R.c, data = dat.crime)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -18.020  -8.441   1.528   8.200  16.596 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   105.63830    1.56148  67.653   &lt;2e-16 ***
+## dat.crime$R.c   0.09338    0.04081   2.288   0.0269 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 10.7 on 45 degrees of freedom
+## Multiple R-squared:  0.1042, Adjusted R-squared:  0.08432 
+## F-statistic: 5.236 on 1 and 45 DF,  p-value: 0.02688</code></pre>
+<p>Based on the single asterisk next to the slope’s p-value, but three significant asterisks near the intercept’s p-value, it is difficult to discern whether the relationship is statistically significant. Taking the significance of the intercept’s p-value against that of the slope, they may be averaged to display a slight significance of the data between reported crime and education level, with significance meaning that the result is unlikely to occur under a null hypothesis. However, there is no discernible rejection of the null hypothesis within the data results. Dealing with solely the slope, the estimated coefficient is 0.09338, the standard error is 0.04081, and the p-value is 0.0269.</p>
+<p><strong>6. How are reported crime and average education related? In other words, for every unit increase in average education, how does reported crime rate change (per million) per state?</strong></p>
+<pre class="r"><code>crime.lm$coefficients</code></pre>
+<pre><code>##   (Intercept) dat.crime$R.c 
+##  105.63829787    0.09337905</code></pre>
+<p>Here, with slope described as a unit increase in one variable per unit increase in a second variable, the slope would signify that there is an increase in crime reports by 0.09337905 per million with each unit of increase in average education.</p>
+<p><strong>7. Can you conclude that if individuals were to receive more education, then crime will be reported more often? Why or why not?</strong></p>
+<p>It is difficult to discern or state that there is a positive correlation between education and crime reports, for it is an extremely weak correlation between the two, with a correlation estimate rounding to only about 0.3. Although the plots comparing crime reports and education were proven to be accurate plots through the four assumptions, the extremely low-valued slope, the insignificant p-value of the slope, and no true proof of rejection of the null hypothesis lead an observer to believe that there is no true correlation between the two. Thus, if individuals were to receive more education, it is not discernible to say that crime will also be reported more often.</p>
+</div>
+</div>
 
 
 
