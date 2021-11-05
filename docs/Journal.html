@@ -1020,6 +1020,94 @@ abline(h = 0, lty=&quot;dashed&quot;)</code></pre>
 <p>It is difficult to discern or state that there is a positive correlation between education and crime reports, for it is an extremely weak correlation between the two, with a correlation estimate rounding to only about 0.3. Although the plots comparing crime reports and education were proven to be accurate plots through the four assumptions, the extremely low-valued slope, the insignificant p-value of the slope, and no true proof of rejection of the null hypothesis lead an observer to believe that there is no true correlation between the two. Thus, if individuals were to receive more education, it is not discernible to say that crime will also be reported more often.</p>
 </div>
 </div>
+<div id="exam-2" class="section level1">
+<h1>Exam 2</h1>
+<ol style="list-style-type: lower-alpha">
+<li><p>Create a folder in your computer (a good place would be under Crim 250, Exams).</p></li>
+<li><p>Download the dataset from the Canvas website (sim.data.csv) onto that folder, and save your Exam 2.Rmd file in the same folder.</p></li>
+<li><p>Data description: This dataset provides (simulated) data about 200 police departments in one year. It contains information about the funding received by the department as well as incidents of police brutality. Suppose this dataset (sim.data.csv) was collected by researchers to answer this question: <strong>“Does having more funding in a police department lead to fewer incidents of police brutality?”</strong></p></li>
+<li><p>Codebook:</p></li>
+</ol>
+<ul>
+<li>funds: How much funding the police department received in that year in millions of dollars.</li>
+<li>po.brut: How many incidents of police brutality were reported by the department that year.</li>
+<li>po.dept.code: Police department code</li>
+</ul>
+<div id="problem-1-eda-10-points" class="section level2">
+<h2>Problem 1: EDA (10 points)</h2>
+<p><em>Describe the dataset and variables. Perform exploratory data analysis for the two variables of interest: funds and po.brut.</em></p>
+<pre class="r"><code>dat&lt;-read.csv(file = &#39;sim.data.csv&#39;)
+head(dat)</code></pre>
+<pre><code>##   po.dept.code funds po.brut
+## 1            1  48.1      23
+## 2            2  81.4      10
+## 3            3  41.8      25
+## 4            4  61.7      19
+## 5            5  86.4       8
+## 6            6  51.6      22</code></pre>
+<pre class="r"><code>names(dat)</code></pre>
+<pre><code>## [1] &quot;po.dept.code&quot; &quot;funds&quot;        &quot;po.brut&quot;</code></pre>
+<pre class="r"><code>plot(dat$funds, dat$po.brut, main = &quot;Relationship Between Police Funding (in millions) and Brutality Incidents&quot;, xlab = &quot;Police Funding (in millions&quot;, ylab = &quot;Police Brutality Incidents&quot;)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<p>Here, the dataset describes a simulated account of 200 police departments, where in each department, their allocated funding (in millions) and the number of police brutality incidents within that police department are compared within a singular year. Within the dataset, the variables include the police department’s code, the yearly funds allocated to them in millions, and the number of police brutality incidents they had within a year.</p>
+<p>Here, the EDA of the data, within a scatterplot, demostrates a strong correlation between higher funding and lower brutality incidents.</p>
+</div>
+<div id="problem-2-linear-regression-30-points" class="section level2">
+<h2>Problem 2: Linear regression (30 points)</h2>
+<p><em>a. Perform a simple linear regression to answer the question of interest. To do this, name your linear model “reg.output” and write the summary of the regression by using “summary(reg.output)”.</em></p>
+<pre class="r"><code>reg.output &lt;- lm(formula = dat$po.brut ~ dat$funds, data = dat)
+plot(dat$funds, dat$po.brut, main = &quot;Linear Regression of Police Funding and Police Brutality&quot;, xlab = &quot;Department Funding in Millions&quot;, ylab = &quot;Police Brutality Incidents&quot;)
+abline(reg.output, col=&quot;blue&quot;)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+<pre class="r"><code>summary(reg.output)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = dat$po.brut ~ dat$funds, data = dat)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.9433 -0.2233  0.2544  0.5952  1.1803 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 40.543069   0.282503  143.51   &lt;2e-16 ***
+## dat$funds   -0.367099   0.004496  -81.64   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.9464 on 198 degrees of freedom
+## Multiple R-squared:  0.9712, Adjusted R-squared:  0.971 
+## F-statistic:  6666 on 1 and 198 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>cor(dat$funds, dat$po.brut)</code></pre>
+<pre><code>## [1] -0.9854706</code></pre>
+<p>Regarding the main question, there seems to be a strong correlation between having more department funding and experiencing less incidents of police brutality, where less deparment funding generally leads to much higher rates of police brutality incidents. Here, the line of best fit also demonstrates this extremely strong negative correlation.</p>
+<p><em>b. Report the estimated coefficient, standard error, and p-value of the slope. Is the relationship between funds and incidents statistically significant? Explain.</em></p>
+<p>Here, the estimated coefficient of the slope is -0.367099, the standard error of the slope is 0.004496, and the p-value of the slope is &lt;2e-16. Observing these values, the relationship between funds and incidents is statistically significant, as the p-value of the slope is much smaller than the alpha at 0.05 (which leads to the rejection of the null hypothesis), the p-value of the slope has three asterisks of significance, and the correlation reaches a value of -98.5%.</p>
+<p><em>c. Draw a scatterplot of po.brut (y-axis) and funds (x-axis). Right below your plot command, use abline to draw the fitted regression line, like this:</em></p>
+<pre class="r"><code>plot(dat$funds, dat$po.brut, main = &quot;Linear Regression of Police Funding and Police Brutality&quot;, xlab = &quot;Department Funding in Millions&quot;, ylab = &quot;Police Brutality Incidents&quot;)
+abline(reg.output, col = &quot;red&quot;, lwd=2)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-43-1.png" width="384" /></p>
+<p><em>Does the line look like a good fit? Why or why not?</em></p>
+<p>Yes, the line does look like a good fit, as there is only a slight skew between the actual scatterplot and the line of best fit. Comparing the values, there is a high correlation between the values in the middle and the line of best fit, while only the heavy tails of the graph seem to drift from the line.</p>
+<p><em>d. Are the four assumptions of linear regression satisfied? To answer this, draw the relevant plots. (Write a maximum of one sentence per assumption.) If not, what might you try to do to improve this (if you had more time)?</em></p>
+<pre class="r"><code>dat$funds.c = scale(dat$funds, center = TRUE, scale = FALSE)
+plot(dat$funds.c, reg.output$residuals, ylim=c(-15,15), main=&quot;Residuals vs. x&quot;, xlab=&quot;x, Scaled Funds&quot;, ylab=&quot;Residuals&quot;)
+abline(h = 0, lty=&quot;dashed&quot;)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
+<pre class="r"><code>plot(reg.output, which=3)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-44-2.png" width="672" /></p>
+<pre class="r"><code>plot(reg.output, which=2)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-44-3.png" width="672" /></p>
+<p>Here, about three of the four assumptions seem to be satisfied. Attempting to satisfy both the linearity and independence assumptions with the residuals vs. x plot, they seem to be satisfied in that the majority of residuals seem to be centered around the dotted line, however, the tails seem to be scaling down towards the bottom of the graph, which may lead to discrepancies in independence, as there seems to be a patterns. Attempting to satisfy the homoscedasticity assumption, there seems to be a great discrepancy, and thus does not seem to be satisfied. Here, there is a large pattern in the middle of the graph which seems in the shape of a “W”, where some residuals seem to have a non-constant variance. With more time, I would attempt to transform the graph to even out these residuals to try and create constant variance and a graph without these outlier patterns. Lastly, the normal population assumption seems to be satisfied, as the majority of the plot falls within the dotted line (especially near the middle). However, once again, the heavy tails of the graph seem the skew these quantities and demonstrate some non-normally distributed values.</p>
+<p><em>e. Answer the question of interest based on your analysis.</em></p>
+<p>Based on the analysis of these assumptions, it seems that my previous response to the question holds proven, however with some discrepancies. First, although the majority of the assumptions are proven, and thus the null hypothesis could be rejected and my answer may hold, there are still issues in non-constant variance and the tails of the graph dealing with normal populations. Thus, the correlation should be taken as proven along with the factors of some non-constant variance and population outliers.</p>
+</div>
+<div id="problem-3-data-ethics-10-points" class="section level2">
+<h2>Problem 3: Data ethics (10 points)</h2>
+<p><em>Describe the dataset. Considering our lecture on data ethics, what concerns do you have about the dataset? Once you perform your analysis to answer the question of interest using this dataset, what concerns might you have about the results?</em></p>
+<p>The dataset, again, considers the correlation in a singular year between police department funding in millions in comparison to police brutality incidents in each department. First, I believe there may be issues in representativeness (regarding the non-constant variance and population outliers discovered), bias in the sources and reporting of data (along with its randomness), consent of victims of police brutality, and testing for errors among certain user groups. With the results of the dataset, some concerns might be that since this dataset only describes a singular year correlating funding and brutality, it is not able to make an assumption that may hold proven throughout time. Thus, this correlation cannot be held proven past the year it was studied, and doing so might heavily misrepresent the situation of correlation. Additionally, the results should be more heavily fleshed out to get rid of the non-constant variance and any other issues that might impede interpretation. Thus, the correlation cannot describe past its year and cannot be held proven without more exploration of the analysis.</p>
+</div>
+</div>
 
 
 
