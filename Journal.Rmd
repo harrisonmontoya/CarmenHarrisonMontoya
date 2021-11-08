@@ -629,7 +629,7 @@ The dataset, again, considers the correlation in a singular year between police 
 
 ## Page 1 - Chapter 3: Data Visualization
 
-```{r, eval = FALSE}
+```{r}
 install.packages("tidyverse", repos = "http://cran.us.r-project.org") 
 #Installing the package 'tidyverse'
 
@@ -642,11 +642,15 @@ mpg
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy))
   #Creating a gg plot based on the "mpg" dataframe, showing "displ" on the x-axis and "hwy" on the y-axis
+```
 
+```{r, eval = FALSE}
 ggplot(data = <DATA>) 
   GEOM_FUNCTION(mapping = aes(<MAPPINGS>))
   #Nonworking graphing template for graphing with ggplot2
+```
 
+```{r}
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy, color = class)) 
   #Mapping the variables by color to reveal the class of each car
@@ -670,8 +674,8 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, color = "blue")) 
   #First Problem Encountered: parenthesis issue that leaves color red
 
-ggplot(data = mpg) 
-+ geom_point(mapping = aes(x = displ, y = hwy)) 
+ggplot(data = mpg) +
+geom_point(mapping = aes(x = displ, y = hwy)) 
 #Second Problem Encountered: Should not be putting "+"
 
 ggplot(data = mpg) + 
@@ -859,7 +863,9 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
   geom_abline() +
   coord_fixed() 
   #Showing coordination between city and highway mpg using fixed polar coordinates and reference lines
+```
 
+```{r, eval = FALSE} 
 ggplot(data = <DATA>) + 
   <GEOM_FUNCTION>(
     mapping = aes(<MAPPINGS>),
@@ -871,10 +877,10 @@ ggplot(data = <DATA>) +
  #Nonworking graphic template for position adjustments, stats, coordinate systems, and faceting
 ```
 
-
 ## Page 2 - Chapter 28: Graphics for Communication 
 
-```{r, eval = FALSE}
+
+```{r}
 library(tidyverse)
 # Scanning the library for the package 'tidyverse'
 
@@ -1009,7 +1015,9 @@ presidential %>%
     geom_segment(aes(xend = end, yend = id)) +
     scale_x_date(NULL, breaks = presidential$start, date_labels = "'%y") 
     #Using a presidential terms dataset, using 'breaks' while working with few data points to highlight exactly where the observations occur
+```
 
+```{r, eval = FALSE}
 base <- ggplot(mpg, aes(displ, hwy)) +
   geom_point(aes(colour = class)) + 
 base + theme(legend.position = "left") +
@@ -1017,7 +1025,9 @@ base + theme(legend.position = "top") +
 base + theme(legend.position = "bottom") +
 base + theme(legend.position = "right") # the default
 #Using themes to control the non-data parts of the plot, where the theme setting 'legend.position' controls where the legend is drawn
+```
 
+``` {r}
 ggplot(mpg, aes(displ, hwy)) +
   geom_point(aes(colour = class)) +
   geom_smooth(se = FALSE) +
@@ -1100,6 +1110,7 @@ ggplot(compact, aes(displ, hwy, colour = drv))
   geom_point() 
   #Expanding the limits of the plots to match scales across the two plots
 
+
 x_scale <- scale_x_continuous(limits = range(mpg$displ))
 y_scale <- scale_y_continuous(limits = range(mpg$hwy))
 col_scale <- scale_colour_discrete(limits = unique(mpg$drv))
@@ -1114,17 +1125,23 @@ ggplot(compact, aes(displ, hwy, colour = drv))
   y_scale
   col_scale
   #Sharing scales across multiple plots to train the scales with the limits of the full data
-
-ggplot(mpg, aes(displ, hwy))
+  
+  ggplot(mpg, aes(displ, hwy))
   geom_point(aes(color = class))
   geom_smooth(se = FALSE)
   theme_bw()
   #Can customize the non-data elements of the plot with a theme
+```
 
+```{r, eval = FALSE}
 ggplot(mpg, aes(displ, hwy)) geom_point()
 #Sample code to save the plots out of R in either 'ggsave' or knitr
+```
 
+``` {r}
 ggsave("my-plot.pdf")
  # Saving 7 x 4.33 in image 
  #Using 'ggsave' to save the image of the plots as a pdf
 ```
+
+
