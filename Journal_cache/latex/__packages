@@ -9,3 +9,5 @@ tidyr
 purrr
 stringr
 forcats
+readxl
+maps
